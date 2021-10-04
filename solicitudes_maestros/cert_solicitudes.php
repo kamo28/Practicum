@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+    require "../header.php"
+?>
+
 <head>
   <title>Certificados pendientes</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-
-  <style>
+</head>
+<style>
     .bar{width:100%;overflow:hidden}
     .bar .bar-item{padding:8px 16px;float:left;width:auto;border:none;display:block;outline:0}
     .bar .button{white-space:normal}
@@ -20,9 +18,8 @@
     .right{float:right!important}
     .hide-small{display:none!important}
     a{background-color:transparent;color: black;font-size: large;}a:active,a:hover{outline-width:0}
-  </style>
-</head>
-<body>
+</style>
+
     <!-- Button group -->
     <div class="container">
         <div class='wrapper text-center'>
@@ -46,7 +43,7 @@
                         <th >Urgencia</th>
                     </tr>
                 </thead>
-                <!-- <tbody>
+                <tbody>
                     <?php
                     include("../include/conexion.php");
                     $con = OpenCon();
@@ -72,11 +69,10 @@
                     }
                     }
                     ?>
-                </tbody> -->
+                </tbody>
             </table>
             <input type="submit" name="submit" class="btn btn-dark" value="Realizar análisis" style="text-align:center"<?php if($activar==null){echo "disabled";}?> >
         </form>
     </div>
-
 </body>
 </html>
