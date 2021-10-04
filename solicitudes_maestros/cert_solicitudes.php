@@ -24,54 +24,60 @@
     <div class="container">
         <div class='wrapper text-center'>
             <div class="btn-group btn-group-lg">
-                <a class="btn btn-primary btn-lg active"  aria-pressed="true" href="ana_solicitados.php" role="button">Análisis solicitados</a>
+                <a class="btn btn-primary btn-lg active"  aria-pressed="true" href="cert_solicitudes.php" role="button">Certificados solicitados</a>
             </div>
         </div>
     </div><br>
 
     <div class="container">
-        <h3>Análisis Solicitados</h3>
+        <h3>Certificados Solicitados</h3>
         <form  method="GET" action="analisis.php"> 
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>ID Solicitud</th>
-                        <th>ID cliente</th>
-                        <th>ID lote</th>
-                        <th>Estatus de Anélisis</th>
-                        <th>Fecha de emisión</th>
-                        <th >Urgencia</th>
+                        <th>Nombre del acreditado</th>
+                        <th>Evento</th>
+                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    include("../include/conexion.php");
-                    $con = OpenCon();
-                    if (mysqli_connect_errno()) {
-                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                    }
-                    $sql="Select * from solicitud_analisis where estatus='en proceso' ORDER BY urgencia DESC;";
-                    $result= mysqli_query($con,$sql);
-                    $activar=null;
-                    while($row = mysqli_fetch_array($result)) {
-                    $estado=$row['estatus'];
-                    if($row['urgencia']=="1"){
-                        $activar="act";
-                        $urgencia="Urgente";
-                    }
-                    else{
-                        $urgencia="-";
-                        $activar="act";
-                    }
-                    if($estado=="en proceso"){
-                            $input="<input type='radio' class='form-check-input' name='seleccion' value=".$row['ID_solicitud']." required>";
-                        echo "<tr class='alert alert-danger'><td>".$row['ID_solicitud']."</td><td>".$row['ID_cliente']."</td><td>".$row['ID_lote']."</td><td>".$row['estatus']."</td><td>".$row['f_emision']."</td><td>".$urgencia."</td><td style='text-align: right;'>".$input."</td></tr>";
-                    }
-                    }
+                        /* include("../include/conexion.php");
+                        $con = OpenCon();
+                        if (mysqli_connect_errno()) {
+                            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                        }
+
+                        $sql="Select * from solicitud_analisis where estatus='en proceso' ORDER BY urgencia DESC;";
+                        $result= mysqli_query($con,$sql); */
+                        /* while($row = mysqli_fetch_array($result)) {
+
+                            $estado=$row['estatus'];
+                            
+                            /* if($estado=="en proceso"){
+                                $input="<input type='radio' class='form-check-input' name='seleccion' value=".$row['ID_solicitud']." required>";
+                                echo "<tr class='alert alert-danger'>
+                                        <td>".$row['ID_solicitud']."</td>
+                                        <td>".$row['ID_cliente']."</td>
+                                        <td>".$row['ID_lote']."</td>
+                                        <td style='text-align: right;'>".$input."</td>
+                                    </tr>";
+                            } */
+                        //}
                     ?>
+
+                    <tr class='alert alert-danger'>
+                        <td>Fernando Corrales</td>
+                        <td>Conferencia sobre la importancia del practicum</td>
+                        <td>25/08/2032</td>
+                        <td style='text-align: right;'>
+                            <input type='radio' class='form-check-input' name='seleccion' value=".$row['ID_solicitud']." required>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
-            <input type="submit" name="submit" class="btn btn-dark" value="Realizar análisis" style="text-align:center"<?php if($activar==null){echo "disabled";}?> >
+            <input type="submit" name="submit" class="btn btn-dark" value="Revisar solicitud de certificado" style="text-align:center">
         </form>
     </div>
 </body>
