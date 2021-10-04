@@ -47,56 +47,37 @@
         </div>
       </nav>
       <br>
-    </header>
-    <!--Termina barra de navegacion-->
+    </header>   <!--Termina barra de navegacion-->
     <!--termina header-->
     <div class="container" style="height:50px"></div>
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
-      <h2 style="text-align:center"> Crear Nuevo Maestro</h2>
-      <h3 style="text-align:center">Llena los siguientes datos del maestro que se va a crear</h3>
+      <h2 style="text-align:center">Eliminar maestro</h2>
       <form>
+
         <!--ID-->
         <div class="mb-3">
           <label for="idMaestros" class="form-label">ID</label>
-          <input type="text" class="form-control" id="nombresMaestros">
+          <input type="text" class="form-control" id="idMaestros">
         </div>
         <!--Nombre-->
         <div class="mb-3">
           <label for="nombresMaestros" class="form-label">Nombre(s)</label>
-          <input type="text" class="form-control" id="nombresMaestros">
+          <input type="text" class="form-control" id="nombresMaestros" disabled>
         </div>
         <!--Apellido paterno-->
         <div class="mb-3">
           <label for="apellidoPaterno" class="form-label">Apellido paterno</label>
-          <input type="text" class="form-control" id="apellidosMaestros">
+          <input type="text" class="form-control" id="apellidosMaestros"
+          disabled>
         </div>
         <!--Apellido materno-->
         <div class="mb-3">
           <label for="apellidosMaestros" class="form-label">Apellido materno</label>
-          <input type="text" class="form-control" id="apellidosMaestros">
-        </div>
-        <!--Puesto-->
-        <div class="mb-3">
-          <label for="puestoMaestros" class="form-label">Puesto (Coordinador, Maestro de planta, Administrativo)</label>
-          <input type="text" class="form-control" id="puestoMaestros">
-        </div>
-        <!--Área-->
-        <div class="mb-3">
-          <label for="areaMaestros" class="form-label">Área (Matemáticas, Sistemas, Física)</label>
-          <input type="text" class="form-control" id="areaMaestros">
-        </div>
-        <!--Rol-->
-        <h5>Rol en el sitio</h5>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="rolMaestro">
-          <label class="form-check-label" for="exampleCheck1">Maestro (Los maestros no pueden crear solicitudes de certificado, sólo autorizan)</label>
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="rolMaestro">
-          <label class="form-check-label" for="exampleCheck1">Administrador (Pueden crear solicitudes de certificado y crear nuevos usuarios)</label>
+          <input type="text" class="form-control" id="apellidosMaestros"
+          disabled>
         </div>
         <!--Enviar información-->
-        <button type="submit" class="btn btn-primary">Crear</button>
+        <button type="submit" class="btn btn-primary">Eliminar</button>
       </form>
     </div>
   </body>
