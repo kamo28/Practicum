@@ -1,18 +1,19 @@
 <?php
   function OpenCon()
  {
-   $dbhost = "localhost";
-   $dbuser = "root";
-   $dbpass = "WQD4.hUCY3a-8_g";
-   $db = "DAW";
-   $conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
-   $conn->set_charset("utf8");
-
+   $dbhost = "fanny.db.elephantsql.com";
+   $dbuser = "ovvcxygy";
+   $dbpass = "mMF1CFaD2KK9nJcttuptKoSLgyz6eIQm";
+   $dbname = "ovvcxygy";
+   $port = "5432";
+  // $conn->set_charset("utf8");
+   $conn = pg_connect("host=$dbhost port=$port dbname=$dbname user=$dbuser password=$dbpass")
+            or die("No se pudo conectar al servidor");
    return $conn;
  }
 
  function CloseCon($conn)
   {
-    $conn -> close();
+    pg_close($conn);
   }
 ?>

@@ -5,7 +5,7 @@
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; padding-top:50px">
       <h2 style="text-align:center"> Crear Solicud de Certficado</h2>
       <h4 style="padding-top:30px; padding-bottom:30px">Llena los siguientes datos acerca del certificado</h4>
-      <form>
+      <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <div class="mb-3">
           <label for="nombresMaestros" class="form-label">Nombre(s) de la persona certificada</label>
           <input type="text" class="form-control" id="nombresMaestros">
@@ -38,5 +38,19 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
+    <?php
+      include 'conexion.php';
+      $con=OpenCon();
+      $query = 'SELECT * FROM AdminsMaestros';
+      $results = pg_query($con, $query) or die('Query failed: ' . pg_last_error());
+
+      while($line = pg_fetch_array($results, null, PGSQL_ASSOC)){
+        echo "\t<tr>\n";
+        foreach ($line as $col_value) {
+          echo "\t\t<td>$col_value</td>\n";
+        }
+        echo "\t</tr>\n";
+      }
+    ?>
   </body>
 </html>
