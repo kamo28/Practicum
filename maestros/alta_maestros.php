@@ -111,7 +111,7 @@
         <!--Contraseña-->
         <div class="mb-3">
           <label for="contraseñaMaestro" class="form-label">Contraseña</label>
-          <input type="text" class="form-control" id="contraseñaMaestro" name="contraseñaMaestro" value="<?php echo $contraseña;?>">
+          <input type="password" class="form-control" id="contraseñaMaestro" name="contraseñaMaestro" value="<?php echo $contraseña;?>">
           <span class="error">* <?php echo $contraseñaErr;?></span>
         </div>
         <!--Rol-->
@@ -133,32 +133,21 @@
         if(isset($_POST['submit'])
         && !empty($_POST["idMaestro"]) && !empty($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["contraseñaMaestro"]) && !empty($_POST["rolMaestro"])
       ){
-            echo "<p>hola</p>";
             //////////////////////////////////////////////////////////////////////////////////
             // Crear una conexión
             include '../conexion.php';
             $con = OpenCon();
-            // escape variables for security
-            /*$NombreUsuario = mysqli_real_escape_string($con, $_POST['nombre']);
-            $fecha = mysqli_real_escape_string($con, $_POST['fecha']);
-            $email = mysqli_real_escape_string($con, $_POST['email']);
-            $tarjeta = mysqli_real_escape_string($con, $_POST['tarjeta']);
-            $direccion = mysqli_real_escape_string($con, $_POST['direccion']);
-            $contraseña = mysqli_real_escape_string($con, $_POST['contraseña']);*/
-
-
-            $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$contraseña','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
-            $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-
-            /* $res = pg_insert($con, 'AdminsMaestros', $_POST, PG_DML_ESCAPE);
-            if ($res) {
-              echo "POST data is successfully logged\n";
-            } else {
-              echo "User must have sent wrong inputs\n";
-            } */
-            //echo $row[0];
-
-
+            $query1 = "Select id from AdminsMaestros where id=$idMaestro";
+            $result1 = pg_query($con, $query1);
+            $rows = pg_num_rows($result1);
+            if($rows>0){
+              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Ya existe un maestro/administrador con ese ID</strong></div>';
+            }else{
+              $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
+              $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
+              $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+              echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
+            }
             /*$sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
             $result=pg_query($con, $sql);
             if (!$result) {
