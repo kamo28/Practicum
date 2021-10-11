@@ -20,6 +20,7 @@
             echo "\t\t<td>$col_value</td>\n";
           }
           echo "\t</tr>\n";
+          echo "\n";
         }
     ?>
 </body>
