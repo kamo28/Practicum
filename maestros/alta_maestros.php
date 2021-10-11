@@ -129,15 +129,24 @@
             $tarjeta = mysqli_real_escape_string($con, $_POST['tarjeta']);
             $direccion = mysqli_real_escape_string($con, $_POST['direccion']);
             $contraseña = mysqli_real_escape_string($con, $_POST['contraseña']);*/
+            
+            
             //$query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,$contraseña,$nombreMaestro,$apellidoPaterno,$apellidoMaterno,$rolMaestro,$puestoMaestro,$areaMaestro)";
             //$result = pg_query($query) or die('Query failed: ' . pg_last_error());
-            $res = pg_insert($con, 'AdminsMaestros', $_POST, PG_DML_ESCAPE);
+            
+            /* $res = pg_insert($con, 'AdminsMaestros', $_POST, PG_DML_ESCAPE);
             if ($res) {
               echo "POST data is successfully logged\n";
             } else {
               echo "User must have sent wrong inputs\n";
-            }
+            } */
             //echo $row[0];
+
+
+            $sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
+            pg_query($con, $sql);
+
+
 
             /*$stmt = mysqli_stmt_init($con);
             if(!mysqli_stmt_prepare($stmt, $sql)){
