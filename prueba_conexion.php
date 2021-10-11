@@ -8,8 +8,9 @@
 </head>
 <body>
     <?php
-        //include 'conexion.php';
-        //$conn = OpenCon();
+        include 'conexion.php';
+        $conn = OpenCon();
+        echo "<p>Hola</p>";
         /* $resultado = pg_query($conn, "SELECT * FROM AdminsMaestros");
         if(!$resultado){
             echo "<b>Error de búsqueda</b>";

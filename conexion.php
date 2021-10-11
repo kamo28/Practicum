@@ -4,14 +4,14 @@
     $dbuser = "ovvcxygy";
     $dbpass = "mMF1CFaD2KK9nJcttuptKoSLgyz6eIQm";
     $dbname = "ovvcxygy";
-    //$port = "5432";
+    $port = "5432";
     // $conn->set_charset("utf8");
-    $conn = pg_connect("host=$dbhost port=$port dbname=$dbname user=$dbuser password=$dbpass")
-            or die("No se pudo conectar al servidor");
+    $conn = pg_connect("host=$dbhost port=$port dbname=$dbname user=$dbuser password=$dbpass");
+            //or die("No se pudo conectar al servidor");
     if($conn){
-      echo "Se conectó correctamente";
+      echo "<p>Se conectó correctamente</p>";
     }else{
-      echo "Ha ocurrido un problema";
+      echo "<p>Ha ocurrido un problema</p>";
     }
 
     /* try {
