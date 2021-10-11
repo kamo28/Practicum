@@ -13,13 +13,6 @@
     }else{
       echo "<p>Ha ocurrido un problema</p>";
     }
-
-    /* try {
-      $conn = new PDO ("pgsql: host=$dbhost; dbname=$dbname", $dbuser, $dbpass);
-      echo "Se conectó correctamente a la base de datos";
-    }catch{
-      echo ("No se pudo conectar a la base de datos," $exp);
-    }*/
     return $conn; 
   }
 
