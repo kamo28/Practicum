@@ -3,6 +3,9 @@
  ?>
   <head>
     <title> Alta de Maestros </title>
+    <style>
+      .error {color: #FF0000;}
+    </style>
   </head>
   <?php
       // define variables and set to empty values
@@ -50,6 +53,11 @@
           } else {
               $contraseña = test_input($_POST["contraseñaMaestro"]);
           }
+          if (empty($_POST["rolMaestro"])) {
+           $rolErr = "Rol necesario";
+          } else {
+           $rolMaestro = test_input($_POST["rolMaestro"]);
+          }
       }
 
       function test_input($data) {
@@ -67,60 +75,68 @@
         <!--ID-->
         <div class="mb-3">
           <label for="idMaestro" class="form-label">ID</label>
-          <input type="text" class="form-control" id="idMaestro" name="idMaestro">
+          <input type="text" class="form-control" id="idMaestro" name="idMaestro" value="<?php echo $idMaestro;?>">
+          <span class="error">* <?php echo $idErr;?></span>
         </div>
         <!--Nombre-->
         <div class="mb-3">
           <label for="nombreMaestro" class="form-label">Nombre(s)</label>
-          <input type="text" class="form-control" id="nombreMaestro" name="nombreMaestro">
+          <input type="text" class="form-control" id="nombreMaestro" name="nombreMaestro" value="<?php echo $nombreMaestro;?>">
+          <span class="error">* <?php echo $nombreErr;?></span>
         </div>
         <!--Apellido paterno-->
         <div class="mb-3">
           <label for="apellidoPaterno" class="form-label">Apellido paterno</label>
-          <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno">
+          <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" value="<?php echo $apellidoPaterno;?>">
+          <span class="error">* <?php echo $paternoErr;?></span>
         </div>
         <!--Apellido materno-->
         <div class="mb-3">
           <label for="apellidoMaterno" class="form-label">Apellido materno</label>
-          <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno">
+          <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno"  value="<?php echo $apellidoMaterno;?>">
+          <span class="error">* <?php echo $maternoErr;?></span>
         </div>
         <!--Puesto-->
         <div class="mb-3">
           <label for="puestoMaestro" class="form-label">Puesto (Coordinador, Maestro de planta, Administrativo)</label>
-          <input type="text" class="form-control" id="puestoMaestro" name="puestoMaestro">
+          <input type="text" class="form-control" id="puestoMaestro" name="puestoMaestro" value="<?php echo $puestoMaestro;?>">
+          <span class="error">* <?php echo $puestoErr;?></span>
         </div>
         <!--Área-->
         <div class="mb-3">
           <label for="areaMaestro" class="form-label">Área (Matemáticas, Sistemas, Física)</label>
-          <input type="text" class="form-control" id="areaMaestro" name="areaMaestro">
+          <input type="text" class="form-control" id="areaMaestro" name="areaMaestro" value="<?php echo $areaMaestro;?>">
+          <span class="error">* <?php echo $areaErr;?></span>
         </div>
         <!--Contraseña-->
         <div class="mb-3">
           <label for="contraseñaMaestro" class="form-label">Contraseña</label>
-          <input type="text" class="form-control" id="contraseñaMaestro" name="contraseñaMaestro">
+          <input type="text" class="form-control" id="contraseñaMaestro" name="contraseñaMaestro" value="<?php echo $contraseña;?>">
+          <span class="error">* <?php echo $contraseñaErr;?></span>
         </div>
         <!--Rol-->
         <h5>Rol en el sitio</h5>
         <div class="mb-3 form-check">
-          <input type="radio" class="form-check-input" name="rolMaestro">
+          <input type="radio" class="form-check-input" name="rolMaestro" value="Maestro">
           <label class="form-check-label" for="rolMaestro">Maestro (Los maestros no pueden crear solicitudes de certificado, sólo autorizan)</label>
         </div>
         <div class="mb-3 form-check">
-          <input type="radio" class="form-check-input" name="rolMaestro">
+          <input type="radio" class="form-check-input" name="rolMaestro" value="Admin">
           <label class="form-check-label" for="rolMaestro">Administrador (Pueden crear solicitudes de certificado y crear nuevos usuarios)</label>
+          <span class="error">* <?php echo $rolErr;?></span>
         </div>
         <!--Enviar información-->
-        <button type="submit" class="btn btn-primary">Crear</button>
+        <button type="submit" name="submit" class="btn btn-primary">Crear</button>
       </form>
     </div>
     <?php
         if(isset($_POST['submit'])
-        && !empty($_POST["idMaestro"]) && isset($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["contraseñaMaestro"])
-        ){
-
+        && !empty($_POST["idMaestro"]) && !empty($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["contraseñaMaestro"]) && !empty($_POST["rolMaestro"])
+      ){
+            echo "<p>hola</p>";
             //////////////////////////////////////////////////////////////////////////////////
             // Crear una conexión
-            include 'conexion.php';
+            include '../conexion.php';
             $con = OpenCon();
             // escape variables for security
             /*$NombreUsuario = mysqli_real_escape_string($con, $_POST['nombre']);
@@ -129,11 +145,11 @@
             $tarjeta = mysqli_real_escape_string($con, $_POST['tarjeta']);
             $direccion = mysqli_real_escape_string($con, $_POST['direccion']);
             $contraseña = mysqli_real_escape_string($con, $_POST['contraseña']);*/
-            
-            
-            //$query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,$contraseña,$nombreMaestro,$apellidoPaterno,$apellidoMaterno,$rolMaestro,$puestoMaestro,$areaMaestro)";
-            //$result = pg_query($query) or die('Query failed: ' . pg_last_error());
-            
+
+
+            $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$contraseña','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
+            $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+
             /* $res = pg_insert($con, 'AdminsMaestros', $_POST, PG_DML_ESCAPE);
             if ($res) {
               echo "POST data is successfully logged\n";
@@ -143,9 +159,12 @@
             //echo $row[0];
 
 
-            $sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
-            pg_query($con, $sql);
-
+            /*$sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
+            $result=pg_query($con, $sql);
+            if (!$result) {
+              echo "An error occurred.\n";
+              exit;
+            }*/
 
 
             /*$stmt = mysqli_stmt_init($con);
@@ -175,6 +194,8 @@
               }
             }
           }*/
+        }else{
+          echo "<p>bro</p>";
         }
     ?>
   </body>
