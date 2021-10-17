@@ -107,7 +107,7 @@
         header('Location: baja_maestros.php');
         echo "<script type='text/javascript'>window.top.location='baja_maestros.php';</script>"; exit;
 
-      }else{echo "<p>bro</p>";}
+      }
     ?>
   </body>
 
