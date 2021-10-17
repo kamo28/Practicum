@@ -15,6 +15,7 @@
     <header>
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top>"
         <div class="container-fluid">
+          <a class="navbar-brand" href="http://localhost/PracticumCodigo/inicio.php">Ingeniería UAM</a>
           <ul class="navbar-nav ml-auto">
             <?php
               if ($_SESSION['rol'] == "Admin") {
