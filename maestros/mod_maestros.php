@@ -12,6 +12,7 @@
       $idMaestro = $nombreMaestro = $apellidoPaterno = $apellidoMaterno = $puestoMaestro = $rolMaestro = $areaMaestro = $contraseña = $verificar = "";
       $idErr = $nombreErr = $contraseñaErr = $paternoErr = $maternoErr = $puestoErr = $rolErr = $areaErr = $verificarErr = "";
 
+      //Comprobar que los campos estan llenos
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
           if (empty($_POST["idMaestro"])) {
             $idErr = "ID necesario";
@@ -61,6 +62,8 @@
           }
       }
 
+      //Eliminar espacios en blanco, slash inverso, convertir caracteres
+      //especiales en entidades HTML 
       function test_input($data) {
           $data = trim($data);
           $data = stripslashes($data);
@@ -100,6 +103,8 @@
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
       <h2 style="text-align:center"> Crear Nuevo Maestro</h2>
       <h3 style="text-align:center">Llena los siguientes datos del maestro que se va a crear</h3>
+
+      <?//Comienza formulario?>
       <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         
         <!--ID-->
@@ -120,30 +125,35 @@
           <input type="text" class="form-control" id="nombreMaestro" name="nombreMaestro" value="<?php echo $nombreMaestro;?>">
           <span class="error">* <?php echo $nombreErr;?></span>
         </div>
+
         <!--Apellido paterno-->
         <div class="mb-3">
           <label for="apellidoPaterno" class="form-label">Apellido paterno</label>
           <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" value="<?php echo $apellidoPaterno;?>">
           <span class="error">* <?php echo $paternoErr;?></span>
         </div>
+
         <!--Apellido materno-->
         <div class="mb-3">
           <label for="apellidoMaterno" class="form-label">Apellido materno</label>
           <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" value="<?php echo $apellidoMaterno;?>">
           <span class="error">* <?php echo $maternoErr;?></span>
         </div>
+
         <!--Puesto-->
         <div class="mb-3">
           <label for="puestoMaestro" class="form-label">Puesto (Coordinador, Maestro de planta, Administrativo)</label>
           <input type="text" class="form-control" id="puestoMaestro" name="puestoMaestro" value="<?php echo $puestoMaestro;?>">
           <span class="error">* <?php echo $puestoErr;?></span>
         </div>
+
         <!--Área-->
         <div class="mb-3">
           <label for="areaMaestro" class="form-label">Área (Matemáticas, Sistemas, Física)</label>
           <input type="text" class="form-control" id="areaMaestro" name="areaMaestro" value="<?php echo $puestoMaestro;?>">
           <span class="error">* <?php echo $areaErr;?></span>
         </div>
+
         <!--Rol-->
         <h5>Rol en el sitio</h5>
         <span class="error">* <?php echo $rolErr;?></span>
@@ -155,12 +165,14 @@
           <input type="radio" class="form-check-input" name="rolMaestro" value="Admin">
           <label class="form-check-label" for="rolMaestro">Administrador (Pueden crear solicitudes de certificado y crear nuevos usuarios)</label>
         </div>
+
         <!--Enviar información-->
         <button type="submit" name="cambiar" class="btn btn-primary">Guardar cambios</button>
       </form>
     </div>
 
     <?php
+      //Si los campos están llenos se mandan los datos a la base datos
         if(isset($_POST['cambiar']) && !empty($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["rolMaestro"])
       ){
             echo "<p>hola</p>";
