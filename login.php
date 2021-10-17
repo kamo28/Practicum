@@ -24,7 +24,7 @@
     <br><br><br><br>
     <!-- <?php
         session_start();
-        if(!isset($_SESSION['usuario'])){
+        if(!isset($_SESSION['id_maestro'])){
             echo ' -->
                 <br><br>
                 <div class="container">
@@ -40,7 +40,7 @@
                                 <h3>Inicio de sesión</h3>
                             </div>
                             <div class="card-body">
-                            <form role="form" action="include/login.inc.php" method="post">
+                            <form role="form" action="login_resources/login.inc.php" method="post">
                                 <div class="input-group form-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
