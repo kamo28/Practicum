@@ -138,16 +138,24 @@
             include '../conexion.php';
             $con = OpenCon();
             $query1 = "Select id from AdminsMaestros where id=$idMaestro";
-            $result1 = pg_query($con, $query1);
-            $rows = pg_num_rows($result1);
-            if($rows>0){
-              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Ya existe un maestro/administrador con ese ID</strong></div>';
+            if($result1 = pg_query($con, $query1)){
+              $rows = pg_num_rows($result1);
+              if($rows>0){
+                echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Ya existe un maestro/administrador con ese ID</strong></div>';
+              }else{
+                $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
+                $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
+                if($result = pg_query($query)){
+                  echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario Creado Correctamente</strong></div>';
+                  echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
+                }else{
+                    echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al crear nuevo usuario</strong></div>';
+                }
+              }
             }else{
-              $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
-              $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
-              $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-              echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
+              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al crear nuevo usuario</strong></div>';
             }
+
             /*$sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
             $result=pg_query($con, $sql);
             if (!$result) {
@@ -183,8 +191,6 @@
               }
             }
           }*/
-        }else{
-          echo "<p>bro</p>";
         }
     ?>
   </body>
