@@ -1,85 +1,114 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+  include "../header.php";
+ ?>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/topMenu.css">
+    <title> Alta de Maestros </title>
+    <style>
+      .error {color: #FF0000;}
+    </style>
   </head>
+  <?php
+      // define variables and set to empty values
+      $idMaestro = $nombreMaestro = $apellidoPaterno = $apellidoMaterno = $puestoMaestro = $rolMaestro = $areaMaestro = $contraseña = $verificar = "";
+      $idErr = $nombreErr = $contraseñaErr = $paternoErr = $maternoErr = $puestoErr = $rolErr = $areaErr = $verificarErr = "";
+//comprueba si los campos están llenos
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          if (empty($_POST["idMaestro"])) {
+              $idErr = "ID necesario";
+          } else {
+              $idMaestro= test_input($_POST["idMaestro"]);
+          }
+      }
 
-  <body>
-    <!--Empieza barra de navegacion-->
-    <header>
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top>"
-        <div class="container-fluid">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-users"></i>
-                  Maestros
-                </a>
-                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Nuevo Maestro</a>
-                  <a class="dropdown-item" href="#">Modificar Maestro</a>
-                  <a class="dropdown-item" href="#">Borrar Maestro</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-file"></i>
-                Certificados
-              </a>
-              <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                <a class="dropdown-item" href="#">Nueva Solicitud de Certficado</a>
-                <a class="dropdown-item" href="#">Modificar Solicitud de Certificado</a>
-                <a class="dropdown-item" href="#">Eliminar Solicitud de Certificado</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <form role="form" action="http://localhost:8888/DesarrolloSoftware/include/logout.inc.php" method="post">
-                <center><button type="submit" class="btn btn-info" name="logout-submit">Salir</button></center>
-              </form>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <br>
-    </header>   <!--Termina barra de navegacion-->
-    <!--termina header-->
+      function test_input($data) {
+          $data = trim($data);
+          $data = stripslashes($data);
+          $data = htmlspecialchars($data);
+          return $data;
+      }
+  ?>
+  <?php
+      if(isset($_POST['buscar']) && !empty($_POST["idMaestro"])){
+        // Crear una conexión
+        include '../conexion.php';
+        $con = OpenCon();
+
+        // escape variables for security
+        $idMaestro = $_POST['idMaestro'];
+        $result = pg_query($con, "SELECT * FROM AdminsMaestros WHERE id = $idMaestro");
+      
+        $arr = pg_fetch_assoc($result);
+        if (!$arr) {
+          echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>No existe un maestro/administrador con ese ID</strong></div>';
+        }else{
+          $arr = pg_fetch_array($result, 0, PGSQL_BOTH);
+          $nombreMaestro = $arr[2];
+          $apellidoPaterno = $arr[3];
+          $apellidoMaterno = $arr[4];
+         }
+
+        CloseCon($con);
+      }    
+    ?>
+
     <div class="container" style="height:50px"></div>
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
       <h2 style="text-align:center">Eliminar maestro</h2>
-      <form>
+      <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
         <!--ID-->
         <div class="mb-3">
-          <label for="idMaestros" class="form-label">ID</label>
-          <input type="text" class="form-control" id="idMaestros">
+          <label for="idMaestro" class="form-label">ID</label>
+          <input type="number" min="0" class="form-control" name="idMaestro" value="<?php echo $idMaestro;?>">
+          <span class="error">* <?php echo $idErr;?></span>
         </div>
+        <input type="submit" name="buscar" class="btn btn-primary" value="Buscar"><br><br><br>
+
+        <?php
+        ?>
+
         <!--Nombre-->
         <div class="mb-3">
-          <label for="nombresMaestros" class="form-label">Nombre(s)</label>
-          <input type="text" class="form-control" id="nombresMaestros" disabled>
+          <label for="nombreMaestro" class="form-label">Nombre(s)</label>
+          <input type="text" class="form-control" id="nombreMaestro" name="nombreMaestro" value="<?php echo $nombreMaestro; ?>" disabled>
+          <span class="error">* <?php echo $nombreErr;?></span>
         </div>
         <!--Apellido paterno-->
         <div class="mb-3">
           <label for="apellidoPaterno" class="form-label">Apellido paterno</label>
-          <input type="text" class="form-control" id="apellidosMaestros"
-          disabled>
+          <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" value="<?php echo $apellidoPaterno;?>" disabled>
+          <span class="error">* <?php echo $paternoErr;?></span>
         </div>
         <!--Apellido materno-->
         <div class="mb-3">
-          <label for="apellidosMaestros" class="form-label">Apellido materno</label>
-          <input type="text" class="form-control" id="apellidosMaestros"
-          disabled>
+          <label for="apellidoMaterno" class="form-label">Apellido materno</label>
+          <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" value="<?php echo $apellidoMaterno;?>" disabled>
+          <span class="error">* <?php echo $maternoErr;?></span>
         </div>
+
         <!--Enviar información-->
-        <button type="submit" class="btn btn-primary">Eliminar</button>
+        <button type="submit" name="submit" class="btn btn-primary">Eliminar</button>
       </form>
     </div>
+
+<?php 
+   //query para borrar   
+    if(isset($_POST['submit'])
+    && !empty($_POST["idMaestro"])){
+
+        include '../conexion.php';
+        $con = OpenCon();
+
+        $idMaestro = $_POST['idMaestro'];
+        $result = pg_query($con, "SELECT * FROM AdminsMaestros WHERE id = $idMaestro");
+
+        $query = "DELETE FROM AdminsMaestros WHERE id = $idMaestro ";
+        $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+        header('Location: baja_maestros.php');
+        echo "<script type='text/javascript'>window.top.location='baja_maestros.php';</script>"; exit;
+
+      }else{echo "<p>bro</p>";}
+    ?>
   </body>
 
 </html>
