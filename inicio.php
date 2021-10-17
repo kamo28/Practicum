@@ -2,7 +2,7 @@
     require "header.php"
 ?>
 <head>
-    <title>Inicio - Harinas Elizondo</title>
+    <title>Inicio - Certificados Ingeniería Anáhuac</title>
 </head>
 <style>
     body {
