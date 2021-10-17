@@ -23,6 +23,7 @@
 <body>
     <br><br><br><br>
     <!-- <?php
+        //se crea la sesion del usuario (maestro o admin)
         session_start();
         if(!isset($_SESSION['id_maestro'])){
             echo ' -->
