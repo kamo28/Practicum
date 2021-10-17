@@ -30,11 +30,15 @@
             exit();
           }else if($pwdCheck==true){
             session_start();
-            /*$_SESSION['rol'] = $row['Rol']; */
-            $_SESSION['id_maestro'] = $usuario;
-            $_SESSION['contraseña'] = $contraseña;
-            header("Location: /PracticumCodigo/inicio.php?login=success");
-            exit();
+            $query_rol = "SELECT rol FROM AdminsMaestros WHERE id = '$usuario'";
+            $rol_valida = pg_query($con, $query_rol);
+            if($row = pg_fetch_row($rol_valida)){
+              $_SESSION['rol'] = $row[0];
+              $_SESSION['id_maestro'] = $usuario;
+              $_SESSION['contraseña'] = $contraseña;
+              header("Location: /PracticumCodigo/inicio.php?login=success");
+              exit();
+            }
           }else{
               header("Location: /PracticumCodigo/login.php?error=unexpectedError");
               echo '<br><br><div class="alert alert-danger alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error inesperado</strong></div>';
