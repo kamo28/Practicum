@@ -36,7 +36,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <form role="form" action="http://localhost:8888/DesarrolloSoftware/include/logout.inc.php" method="post">
+              <form role="form" action="http://localhost/PracticumCodigo/login_resources/logout.inc.php" method="post">
                 <center><button type="submit" class="btn btn-info" name="logout-submit">Salir</button></center>
               </form>
             </li>
