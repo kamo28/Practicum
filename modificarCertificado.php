@@ -233,7 +233,7 @@
                                                              where id_certificado=$2'
                                                             ,$arrParamsCert))
                           {
-                              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Actaulizacion Correcta</strong></div>';
+                              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Actualizacion Correcta</strong></div>';
                           }else{
                             echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error #2 al cambiar la tabla certificados</strong></div>';
                           }
