@@ -13,7 +13,7 @@
     }else{
       echo "<p>Ha ocurrido un problema</p>";
     }
-    return $conn; 
+    return $conn;
   }
 
   function CloseCon($conn) {

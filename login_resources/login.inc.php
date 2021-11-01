@@ -1,7 +1,7 @@
 <?php
   if(isset($_POST['login-submit'])){
     require '../conexion.php';
-    
+
     $con = OpenCon();
     $usuario = $_POST['idMaestro'];
     $contraseña = $_POST['contraseña'];
@@ -36,7 +36,11 @@
               $_SESSION['rol'] = $row[0];
               $_SESSION['id_maestro'] = $usuario;
               $_SESSION['contraseña'] = $contraseña;
-              header("Location: /PracticumCodigo/inicio.php?login=success");
+              if($_SESSION['rol']=='Maestro'){
+                header("Location: /PracticumCodigo/solicitudes_maestros/cert_solicitudes.php?login=success");
+              }else{
+                header("Location: /PracticumCodigo/inicio.php?login=success");
+              }
               exit();
             }
           }else{

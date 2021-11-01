@@ -13,6 +13,14 @@ function console_log( $data ){
   echo 'console.log('. json_encode( $data ) .')';
   echo '</script>';
 }
+//checar que el usuario tiene permiso de ver esta pagina
+//session_start();
+if(!isset($_SESSION['id_maestro'])){
+   header("Location:Login.php");
+}
+if($_SESSION['rol']=='Maestro'){
+   header("Location:error.php");
+}
 // define variables and set to empty values
 $nombre = $apellidoPaterno = $apellidoMaterno = $evento = $fecha = $maestro = "";
 $nombreErr = $paternoErr = $maternoErr = $eventoErr = $fechaErr = $maestroErr = "";
@@ -132,54 +140,55 @@ function test_input($data) {
           $nombreP=$nombreP.$arregloNombre[$i]." ";
         }
         $nombreP = substr($nombreP, 0, -1);
-        console_log($nombreP);
+        /*console_log($nombreP);
         console_log($maternoP);
-        console_log($maternoP);
+        console_log($maternoP);*/
         $arrFinalNombre = array($nombreP, $paternoP, $maternoP);
         if($queryMaestros=pg_query_params($con, 'SELECT id FROM AdminsMaestros WHERE nombres=$1 and apellido_paterno=$2 and apellido_materno=$3', $arrFinalNombre)){
           $idMaestro= pg_fetch_result($queryMaestros,0,0);
-          console_log($idMaestro);
+          //console_log($idMaestro);
           $paramsEvento = array($evento, $fecha);
-          console_log($paramsEvento[0]);
-          console_log($paramsEvento[1]);
+          /*console_log($paramsEvento[0]);
+          console_log($paramsEvento[1]);*/
           if(pg_query_params($con, 'INSERT into eventos values (default, $1, $2)', $paramsEvento)){
             $paramsUsuario = array($nombre, $apellidoPaterno, $apellidoMaterno);
-            console_log($paramsUsuario[0]);
+            /*console_log($paramsUsuario[0]);
             console_log($paramsUsuario[1]);
-            console_log($paramsUsuario[2]);
+            console_log($paramsUsuario[2]);*/
             if(pg_query_params($con, 'INSERT into usuarioscertificados values (default, $1, $2, $3)', $paramsUsuario)){
               if($query1=pg_query($con, 'SELECT id_evento FROM eventos ORDER BY id_evento DESC LIMIT 1')){
                 $idEvento = pg_fetch_result($query1,0,0);
-                console_log($idEvento);
+                //console_log($idEvento);
                 if($query2=pg_query($con, 'SELECT id_usuario FROM usuarioscertificados ORDER BY id_usuario DESC LIMIT 1')){
                   $idUsuario= pg_fetch_result($query2,0,0);
-                  console_log($idUsuario);
-                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento);
-                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3)', $paramsCertificado)){
-                    console_log("Solicitud correcta");
+                  //console_log($idUsuario);
+                  $estadoInicial="en revisión";
+                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento, $estadoInicial);
+                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3, $4)', $paramsCertificado)){
+                    //console_log("Solicitud correcta");
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Se ha creado la solicitud de certificado, espera a que sea autorizado</strong></div>';
                   }else{
-                    console_log("Error al insertar certificado");
+                    //console_log("Error al insertar certificado");
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
                   }
                 }else{
-                  console_log('error al buscarl el id del usuario');
+                  //console_log('error al buscarl el id del usuario');
                   echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
                 }
               }else {
-                console_log('error al buscarl el id del evento');
+                //console_log('error al buscarl el id del evento');
                 echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
               }
             }else{
-              console_log('error al insertar usuario certificado');
+              //console_log('error al insertar usuario certificado');
               echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
             }
           }else{
-            console_log('error al insertar evento');
+           //console_log('error al insertar evento');
             echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
           }
         }else{
-          console_log('error al buscar el id del maestro');
+          //console_log('error al buscar el id del maestro');
           echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
         }
 

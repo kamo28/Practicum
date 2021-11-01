@@ -31,19 +31,20 @@
                     <a class="dropdown-item" href="/PracticumCodigo/maestros/baja_maestros.php">Borrar Maestro</a>
                   </div>
                 </li>
-              
+
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-file"></i>
                     Certificados
                   </a>
                   <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Nueva Solicitud de Certficado</a>
-                    <a class="dropdown-item" href="#">Modificar Solicitud de Certificado</a>
-                    <a class="dropdown-item" href="#">Eliminar Solicitud de Certificado</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/nuevoCertificado.php">Nueva Solicitud de Certficado</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/solicitudesCertificados.php">Ver Certificados</a>
                   </div>
                 </li>';
-              }elseif ($_SESSION['rol'] == "Maestro") {
+              }
+
+              /*}elseif ($_SESSION['rol'] == "Maestro") {
                 echo '
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,7 +57,7 @@
                     <a class="dropdown-item" href="#">Borrar Maestro</a>
                   </div>
                 </li>';
-              }
+              }*/
             ?>
 
             <li class="nav-item">

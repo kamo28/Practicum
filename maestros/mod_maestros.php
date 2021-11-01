@@ -18,7 +18,7 @@
             $idErr = "ID necesario";
           } else {
               $idMaestro= test_input($_POST["idMaestro"]);
-          }  
+          }
 
           if (empty($_POST["nombreMaestro"])) {
               $nombreErr = "Nombre necesario";
@@ -63,7 +63,7 @@
       }
 
       //Eliminar espacios en blanco, slash inverso, convertir caracteres
-      //especiales en entidades HTML 
+      //especiales en entidades HTML
       function test_input($data) {
           $data = trim($data);
           $data = stripslashes($data);
@@ -71,7 +71,7 @@
           return $data;
       }
   ?>
-    
+
     <?php
       if(isset($_POST['buscar']) && !empty($_POST["idMaestro"])){
         // Crear una conexión
@@ -81,7 +81,7 @@
         // escape variables for security
         $idMaestro = $_POST['idMaestro'];
         $result = pg_query($con, "SELECT * FROM AdminsMaestros WHERE id = $idMaestro");
-      
+
         $arr = pg_fetch_assoc($result);
         if (!$arr) {
           echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>No existe un maestro/administrador con ese ID</strong></div>';
@@ -96,16 +96,16 @@
         }
 
         CloseCon($con);
-      }    
+      }
     ?>
-    
+
     <div class="container" style="height:50px"></div>
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
       <h2 style="text-align:center"> Modificar Maestro</h2>
 
       <?//Comienza formulario?>
       <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        
+
         <!--ID-->
         <div class="mb-3">
           <label for="idMaestro" class="form-label">ID</label>
@@ -183,7 +183,7 @@
             $query="UPDATE AdminsMaestros
                     SET nombres = '$nombreMaestro',
                         apellido_paterno = '$apellidoPaterno',
-                        apellido_materno = '$apellidoMaterno', 
+                        apellido_materno = '$apellidoMaterno',
                         rol = '$rolMaestro',
                         puesto = '$puestoMaestro',
                         area = '$areaMaestro'

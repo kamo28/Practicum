@@ -8,10 +8,17 @@
     </style>
   </head>
   <?php
+      //checar permisos
+      if(!isset($_SESSION['id_maestro'])){
+         header("Location:../Login.php");
+      }
+      if($_SESSION['rol']=='Maestro'){
+         header("Location:../error.php");
+      }
       // define variables and set to empty values
       $idMaestro = $nombreMaestro = $apellidoPaterno = $apellidoMaterno = $puestoMaestro = $rolMaestro = $areaMaestro = $contraseña = $verificar = "";
       $idErr = $nombreErr = $contraseñaErr = $paternoErr = $maternoErr = $puestoErr = $rolErr = $areaErr = $verificarErr = "";
-      
+
       //Comprobar que los campos estan llenos
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
           if (empty($_POST["idMaestro"])) {
@@ -61,7 +68,7 @@
           }
       }
       //Eliminar espacios en blanco, slash inverso, convertir caracteres
-      //especiales en entidades HTML 
+      //especiales en entidades HTML
       function test_input($data) {
           $data = trim($data);
           $data = stripslashes($data);
