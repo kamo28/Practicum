@@ -262,6 +262,7 @@
                 echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al cambiar la tabla usuarios</strong></div>';
             }
         }
+      }
      ?>
 
   </body>
