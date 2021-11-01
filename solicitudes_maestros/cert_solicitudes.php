@@ -1,5 +1,8 @@
 <?php
-    require "../header.php"
+    require "../header.php";
+    if(!isset($_SESSION['id_maestro'])){
+       header("Location:../login.php");
+    }
 ?>
 
 <head>
@@ -31,7 +34,7 @@
 
     <div class="container">
         <h3>Certificados Solicitados</h3>
-        <form  method="GET" action="analisis.php"> 
+        <form  method="POST" action="info_solicitud.php">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -42,6 +45,11 @@
                 </thead>
                 <tbody>
                     <?php
+                        function console_log( $data ){
+                          echo '<script>';
+                          echo 'console.log('. json_encode( $data ) .')';
+                          echo '</script>';
+                        }
                         /* include("../include/conexion.php");
                         $con = OpenCon();
                         if (mysqli_connect_errno()) {
@@ -53,7 +61,7 @@
                         /* while($row = mysqli_fetch_array($result)) {
 
                             $estado=$row['estatus'];
-                            
+
                             /* if($estado=="en proceso"){
                                 $input="<input type='radio' class='form-check-input' name='seleccion' value=".$row['ID_solicitud']." required>";
                                 echo "<tr class='alert alert-danger'>
@@ -64,16 +72,62 @@
                                     </tr>";
                             } */
                         //}
+                        require '../conexion.php';
+                        $con = OpenCon();
+                        $idMaestro = $_SESSION['id_maestro'];
+                        //console_log($idMaestro);
+                        $arregloIDCertificado = [];
+                        $arregloCertificados = [];
+                        $arregloEvento = [];
+                        $arregloFechas = [];
+                        $results = pg_query($con, "SELECT * FROM certificados WHERE id_certificador = $idMaestro AND estado='en revisión'");
+                        while($row = pg_fetch_array($results)){
+                          $usuarioIDarr = array($row['id_usuario_certificado']);
+                            if($queryCertificado= pg_query_params($con,'SELECT nombres, apellido_paterno, apellido_materno from usuarioscertificados where id_usuario=$1',$usuarioIDarr)){
+                              $nombreCertificado = pg_fetch_result($queryCertificado, 0, 'nombres') . " " . pg_fetch_result($queryCertificado, 0, 'apellido_paterno') . " " . pg_fetch_result($queryCertificado,0,"apellido_materno");
+                              array_push($arregloCertificados, $nombreCertificado);
+                              $arrEventoID = array($row['id_evento']);
+                              if($queryEventos = pg_query_params($con,'SELECT nombre, fecha from eventos where id_evento=$1',$arrEventoID)){
+                                $nombreEvento = pg_fetch_result($queryEventos, 0, 'nombre');
+                                $fechaEvento = pg_fetch_result($queryEventos, 0, 'fecha');
+                                array_push($arregloEvento, $nombreEvento);
+                                array_push($arregloFechas, $fechaEvento);
+                              }else{
+                                echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al obtener informacion, intenta de nuevo</strong></div>';
+                              }
+                            }else{
+                              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al obtener informacion, intenta de nuevo</strong></div>';
+                            }
+                            array_push($arregloIDCertificado, $row['id_certificado']);
+                        }
+                        console_log($arregloCertificados);
+                        console_log($arregloEvento);
+                        console_log($arregloFechas);
+                        console_log($arregloIDCertificado);
+                        CloseCon($con);
+
+                        $contador = 0;
+                        while($contador<count($arregloCertificados)){
+                          echo "<tr class='alert alert-danger'>
+                                  <td>" . $arregloCertificados[$contador] . "</td>
+                                  <td>" . $arregloEvento[$contador] . "</td>
+                                  <td>" . $arregloFechas[$contador] . "</td>
+                                  <td style='text-align: right;'>
+                                    <input type = 'radio' class='form-check-input' name='selection' value='" . $arregloIDCertificado[$contador] . "'>
+                                  </td>
+                                </tr>";
+                          $contador++;
+                        }
                     ?>
 
-                    <tr class='alert alert-danger'>
+                    <!--<tr class='alert alert-danger'>
                         <td>Fernando Corrales</td>
                         <td>Conferencia sobre la importancia del practicum</td>
                         <td>25/08/2032</td>
                         <td style='text-align: right;'>
                             <input type='radio' class='form-check-input' name='seleccion' value=".$row['ID_solicitud']." required>
                         </td>
-                    </tr>
+                    </tr>-->
 
                 </tbody>
             </table>

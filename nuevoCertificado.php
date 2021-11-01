@@ -131,6 +131,7 @@ function test_input($data) {
         //include 'conexion.php';
         //$con = OpenCon();
         //$nombreCompleto = $_POST["profesores"];
+        $idUser = $_SESSION['id_maestro'];
         $arregloNombre = explode(" ", $maestro);
         $length = count($arregloNombre);
         $maternoP=$arregloNombre[$length-1];
@@ -163,8 +164,8 @@ function test_input($data) {
                   $idUsuario= pg_fetch_result($query2,0,0);
                   //console_log($idUsuario);
                   $estadoInicial="en revisión";
-                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento, $estadoInicial);
-                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3, $4)', $paramsCertificado)){
+                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento, $estadoInicial, $idUser);
+                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3, $4, $5)', $paramsCertificado)){
                     //console_log("Solicitud correcta");
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Se ha creado la solicitud de certificado, espera a que sea autorizado</strong></div>';
                   }else{

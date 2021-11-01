@@ -23,6 +23,12 @@
         echo 'console.log('. json_encode( $data ) .')';
         echo '</script>';
       }
+      if(!isset($_SESSION['id_maestro'])){
+         header("Location:Login.php");
+      }
+      if($_SESSION['rol']=='Maestro'){
+         header("Location:error.php");
+      }
       require 'conexion.php';
       $con = OpenCon();
       $arregloMaestros = [];
