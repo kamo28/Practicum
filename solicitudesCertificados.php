@@ -1,23 +1,50 @@
 <?php
-    require "header.php"
+    require "header.php";
+    if (isset($_POST['certs'])){
+      $estado=$_POST['certs'];
+    }else{
+      $estado="";
+    }
 ?>
     <h2 style="padding-bottom:20px; padding-top:20px; text-align:center">Solicitudes y Certificados Aprobados</h2>
-    <form method="post">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type='radio' name='certs' value='aprobados' id="inlineRadio1" checked>
+        <input class="form-check-input" type='radio' name='certs' <?php if ($estado=="aprobados") echo "checked";?> value='aprobados' id="inlineRadio1" checked>
         <label class="form-check-label" for="inlineRadio1">Aprobados</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type='radio' name='certs' value='pendientes' id="inlineRadio2">
-        <label class="form-check-label" for="inlineRadio2">Pendientes</label>
+        <input class="form-check-input" type='radio' name='certs' <?php if ($estado=="denegados") echo "checked";?> value='denegados' id="inlineRadio2">
+        <label class="form-check-label" for="inlineRadio2">Denegados</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type='radio' name='certs' value='all' id="inlineRadio3">
+        <input class="form-check-input" type='radio' name='certs' <?php if ($estado=="en revisión") echo "checked";?> value='en revisión' id="inlineRadio2">
+        <label class="form-check-label" for="inlineRadio2">En revisión</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type='radio' name='certs' <?php if ($estado=="") echo "checked";?> value='all' id="inlineRadio3">
         <label class="form-check-label" for="inlineRadio3">Todos</label>
       </div>
         <button type='submit'>Filtrar</button>
   </form>
+  <br>
+  <br>
   <?php
+      require 'conexion.php';
+      $con = OpenCon();
+      //Filtro
+      $estado="";
+      if(!empty($_POST['certs'])){
+        $estado=$_POST['certs'];
+      }
+      if($estado=='aprobados'){
+        $query = "SELECT * FROM certificados WHERE estado = 'aprobado'";
+      }else if($estado=='denegados'){
+        $query = "SELECT * FROM certificados WHERE estado = 'denegado'";
+      }else if($estado=='en revisión'){
+        $query = "SELECT * FROM certificados WHERE estado = 'en revisión'";
+      }else{
+        $query = "SELECT * FROM certificados";
+      }
       function console_log( $data ){
         echo '<script>';
         echo 'console.log('. json_encode( $data ) .')';
@@ -29,14 +56,13 @@
       if($_SESSION['rol']=='Maestro'){
          header("Location:error.php");
       }
-      require 'conexion.php';
-      $con = OpenCon();
+
       $arregloMaestros = [];
       $arregloCertificados = [];
       $arregloEventos = [];
       $arregloEstados = [];
       $arregloIDCertificado = [];
-      $query = 'SELECT * from certificados';
+      //$query = 'SELECT * from certificados';
       $results = pg_query($con,$query) or die('Query Failed: ' . pg_last_error());
       while($row = pg_fetch_array($results)){
         $arrID = array($row['id_certificador']);
@@ -92,7 +118,7 @@
                       //aqui tenemos que cambiar para que lleve a la pagina de modificacion de certificado
                       echo "<td>
                               <form name='myForm' role='form' action='modificarCertificado.php' method='post'>
-                              <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
+                                <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Modificar</button>
                               </form>
                             </td>";
@@ -100,11 +126,29 @@
                       //<input type='hidden' name='IDProducto' value='".$idP."'>
                       echo "<td>
                               <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                                <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
+                              <button type='submit'>Eliminar</button>
+                              </form>
+                            </td>";
+                    }else if($arregloEstados[$contador]=='denegado'){
+                      echo "<td>
+                            </td>";
+                      //arreglar este boton
+                      //<input type='hidden' name='IDProducto' value='".$idP."'>
+                      echo "<td>
+                              <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                                <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Eliminar</button>
                               </form>
                             </td>";
                     }else{
                       echo '<td><a href=#>Ver Certificado</td>';
+                      echo "<td>
+                              <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                                <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
+                              <button type='submit'>Eliminar</button>
+                              </form>
+                            </td>";
                     }
             echo '</tr>';
             $contador++;
