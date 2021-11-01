@@ -1,4 +1,5 @@
 <?php
+    //header con barra de navegacion
     require "header.php"
 ?>
 <head>
@@ -9,6 +10,7 @@
 </head>
 <?php
   function console_log( $data ){
+    //esta funcion solo nos ayuda a debuggear
     echo '<script>';
     echo 'console.log('. json_encode( $data ) .')';
     echo '</script>';
@@ -22,17 +24,21 @@
      header("Location:error.php");
   }
 
-  // define variables and set to empty values
+  // definir ve inicializar variables, las variables de error tendran el error a mostrar en pantalla si este existe
   $idCertificado = $nombre = $apellidoPaterno = $apellidoMaterno = $evento = $fecha = $maestro = "";
   $idErr = $nombreErr = $paternoErr = $maternoErr = $eventoErr = $fechaErr = $maestroErr = "";
+  //chear si el id del certificado se obtuvo de la pagina de solitudes o se busco desde esta misma pagina, esto lo define la variable de post utilizada
   if(isset($_POST['id_certificado'])){
     $idCertificado=$_POST['id_certificado'];
   }else{
     $idCertificado=$_POST['id_cert'];
   }
+  //empezar conexion a base de datos
   include 'conexion.php';
   $con=OpenCon();
+  //seleccionamos el certificado con el id correspondiente, este se obtienen normalmente desde solicitudCertificado, a traves del form que contiene el boton de modificar
   $result = pg_query($con, "SELECT * FROM certificados WHERE id_certificado = $idCertificado");
+  //necesitamos la informacion de las columnas de este certifiacdo
   $row = pg_fetch_row($result);
   if(!$row){
       echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>No existe un certificado con ese ID</strong></div>';
@@ -42,19 +48,25 @@
     //row[2]->id_usuario_certificado
     //row[3]->id_evento
     //row[4]->estado
+    //Tenemos que acceder a las tablas de usuariosCertificados, adminsMaestros, y eventos para obtener la informacion completa del certificado
+    //Esto lo hacemos a traves de las llaves foraneas que tiene la tabla de certificados
     $arrID = array($row[2]);
       if($queryUsuarios = pg_query_params($con,'SELECT nombres, apellido_paterno, apellido_materno from usuarioscertificados where id_usuario=$1',$arrID)){
+        //guardamos la informacion del usuario certificado, para que se despliegue automaticamente al cargar la pagina
         $nombre=pg_fetch_result($queryUsuarios,0,'nombres');
         $apellidoPaterno=pg_fetch_result($queryUsuarios,0,'apellido_paterno');
         $apellidoMaterno=pg_fetch_result($queryUsuarios,0,'apellido_materno');
         $arrEventoID = array($row[3]);
         if($queryEventos = pg_query_params($con,'SELECT nombre, fecha from eventos where id_evento=$1',$arrEventoID)){
+          //guardamos la informacion del evento, para que se despliegue automaticamente al cargar la pagina
           $evento = pg_fetch_result($queryEventos,0,'nombre');
           $fecha = pg_fetch_result($queryEventos, 0, 'fecha');
           $maestroID = array($row[1]);
             if($queryMaestros = pg_query_params($con,'SELECT nombres, apellido_paterno, apellido_materno from AdminsMaestros where id=$1',$maestroID)){
+              //guardamos la informacion de la persona que tiene que autorizar, para que se despliegue automaticamente al cargar la pagina. Aqui se uso la concatenacion para unir los campor nombres, apellido_paterno y apellido_materno
               $maestro = pg_fetch_result($queryMaestros,0,'nombres') . " " . pg_fetch_result($queryMaestros,0,'apellido_paterno') . " " . pg_fetch_result($queryMaestros,0,'apellido_materno');
             }else{
+              //estos mensajes nos ayudan a debug y a ver si hay problemas con los queries anteriormente utilizados
               echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
             }
         }else{
@@ -64,7 +76,9 @@
         echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
       }
   }
+  //cerramos la conexion
   CloseCon($con);
+  //Estos ifs siguientes estan para asegurar que los campos tengan la informacion requerida
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (empty($_POST["nombre"])) {
           $nombreErr = "Nombre necesario";
@@ -102,7 +116,7 @@
           $maestro = test_input($_POST["profesores"]);
       }
   }
-
+  //funcion para limpiar la informacion que ingresa el usuario, seguridad adicional para el sitio
   function test_input($data) {
       $data = trim($data);
       $data = stripslashes($data);
@@ -115,8 +129,9 @@
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; padding-top:50px">
       <h2 style="text-align:center"> Modificar Solicud de Certficado</h2>
       <h4 style="padding-top:30px; padding-bottom:30px">Llena los siguientes datos acerca del certificado</h4>
-      <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"><!--Se hace el resto del codigo php incluido en esta pagina -->
         <?php
+        //checamos si obtuvimos el id del certificado de la pagina de solicitudesCertificados
           if(!isset($_POST['id_certificado'])){
             echo '<div class="mb-3">
                     <label for="idMaestro" class="form-label">ID</label>
@@ -129,6 +144,7 @@
                     <input type="hidden" name="id_cert" class="form-control" value="' . $idCertificado . '">';
           }
          ?>
+        <!--En el value de los input ponemos las varibles que guardan la informacion del certificado obtenida anteriormente, para que se desplieguen automaticamente para el usuario-->
         <div class="mb-3">
           <label for="nombresMaestros" class="form-label">Nombre(s) de la persona certificada</label>
           <input type="text" class="form-control" id="nombresMaestros" name="nombre" value="<?php echo $nombre;?>">
@@ -158,10 +174,8 @@
           <label>Selecciona a la persona que debe certificar</label>
           <input list="profesores" name="profesores" style="width:100%">
           <datalist id="profesores">
-            <!--<option value="Miguel Ángel Méndez Méndez">
-            <option value="Teresa Inestrillas">
-            <option value="María del Carmen Villar Patiño">-->
             <?php
+            //este php nos permite obtener la lista de admins y maestros registrados en el sitio
             $con = OpenCon();
               $query = 'SELECT nombres, apellido_paterno, apellido_materno FROM AdminsMaestros';
               $results = pg_query($con, $query) or die('Query failed: ' . pg_last_error());
@@ -176,12 +190,13 @@
       </form>
     </div>
     <?php
+    //checamos de nuevo de donde se obtiene el id del certificado, esto tambien nos ayuda a que cuando se recargue la pagina se vuelva a desplegar la informacion de los campos
       if(isset($_POST['id_certificado'])){
         $idCertificado=$_POST['id_certificado'];
       }else if(isset($_POST['buscar'])){
         $idCertificado=$_POST['id_cert'];
       }
-      //ver si lo siguiente funciona aqui
+      //checar si no hay campos vacios
       if(isset($_POST['cambiar'])
       && !empty($_POST["nombre"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["evento"]) && !empty($_POST["fecha"])  && !empty($_POST["profesores"]))
       {
@@ -195,6 +210,7 @@
           //row[2]->id_usuario_certificado
           //row[3]->id_evento
           //row[4]->estado
+          //hacemos los updates
             $arrParams = array($nombre,$apellidoPaterno, $apellidoMaterno, $row[2]);
             if($queryUsuarios2 = pg_query_params($con,
                                                 'UPDATE usuarioscertificados
@@ -204,7 +220,7 @@
                                                  where id_usuario=$4'
                                                 ,$arrParams))
               {
-                console_log("update de la tabla usuario correcto");
+                //console_log("update de la tabla usuario correcto");
                 $arrEventoParams = array($evento, $fecha, $row[3]);
                 if($queryEventos2 = pg_query_params($con,
                                                     'UPDATE eventos
@@ -213,7 +229,7 @@
                                                      where id_evento=$3'
                                                     ,$arrEventoParams))
                   {
-                    console_log("update de ka tabla eventos correcto");
+                  //  console_log("update de ka tabla eventos correcto");
                     $arregloNombre = explode(" ", $maestro);
                     $length = count($arregloNombre);
                     $maternoP=$arregloNombre[$length-1];
@@ -233,6 +249,7 @@
                                                              where id_certificado=$2'
                                                             ,$arrParamsCert))
                           {
+                            //de nuevo, estos echos nos ayudan a ver errores en los queries
                               echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Actualizacion Correcta</strong></div>';
                           }else{
                             echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error #2 al cambiar la tabla certificados</strong></div>';
@@ -243,23 +260,6 @@
                   }
               }else{
                 echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al cambiar la tabla usuarios</strong></div>';
-              }
-              $nombre=pg_fetch_result($queryUsuarios,0,'nombres');
-              $apellidoPaterno=pg_fetch_result($queryUsuarios,0,'apellido_paterno');
-              $apellidoMaterno=pg_fetch_result($queryUsuarios,0,'apellido_materno');
-              $arrEventoID = array($row[3]);
-              if($queryEventos = pg_query_params($con,'SELECT nombre, fecha from eventos where id_evento=$1',$arrEventoID)){
-                $evento = pg_fetch_result($queryEventos,0,'nombre');
-                $fecha = pg_fetch_result($queryEventos, 0, 'fecha');
-                $maestroID = array($row[1]);
-                  if($queryMaestros = pg_query_params($con,'SELECT nombres, apellido_paterno, apellido_materno from AdminsMaestros where id=$1',$maestroID)){
-                    $maestro = pg_fetch_result($queryMaestros,0,'nombres') . " " . pg_fetch_result($queryMaestros,0,'apellido_paterno') . " " . pg_fetch_result($queryMaestros,0,'apellido_materno');
-                  }else{
-                    echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
-                  }
-              }else{
-                echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
-              }
             }
         }
      ?>

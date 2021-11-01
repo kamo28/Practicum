@@ -8,6 +8,7 @@
   </style>
 </head>
 <?php
+//funcion para debuggear
 function console_log( $data ){
   echo '<script>';
   echo 'console.log('. json_encode( $data ) .')';
@@ -21,10 +22,10 @@ if(!isset($_SESSION['id_maestro'])){
 if($_SESSION['rol']=='Maestro'){
    header("Location:error.php");
 }
-// define variables and set to empty values
+// definir variables
 $nombre = $apellidoPaterno = $apellidoMaterno = $evento = $fecha = $maestro = "";
 $nombreErr = $paternoErr = $maternoErr = $eventoErr = $fechaErr = $maestroErr = "";
-
+//asegurarnos que no hay campos vacios
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["nombre"])) {
         $nombreErr = "Nombre necesario";
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $maestro = test_input($_POST["profesores"]);
     }
 }
-
+//funcion de limpieza de datos
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -70,6 +71,7 @@ function test_input($data) {
     return $data;
 }
 ?>
+<!--El form llama al codigo php incluido en este mismo archivo, tiene etiquetas span que despliegan posibles errores-->
   <body>
     <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; padding-top:50px">
       <h2 style="text-align:center"> Crear Solicud de Certficado</h2>
@@ -104,10 +106,8 @@ function test_input($data) {
           <label>Selecciona a la persona que debe certificar</label>
           <input list="profesores" name="profesores" style="width:100%">
           <datalist id="profesores">
-            <!--<option value="Miguel Ángel Méndez Méndez">
-            <option value="Teresa Inestrillas">
-            <option value="María del Carmen Villar Patiño">-->
             <?php
+            //funcion para obtener la lista de admins y maestros registrados en el sitio
               include 'conexion.php';
               $con=OpenCon();
               $query = 'SELECT nombres, apellido_paterno, apellido_materno FROM AdminsMaestros';
@@ -128,22 +128,26 @@ function test_input($data) {
     {
         //////////////////////////////////////////////////////////////////////////////////
         // Crear una conexión
-        //include 'conexion.php';
-        //$con = OpenCon();
-        //$nombreCompleto = $_POST["profesores"];
+        //obtenemos el id del usuario actual del sitio, este para rellenar el campo de id_persona_que_solicita de la tabla de certificados
         $idUser = $_SESSION['id_maestro'];
+        //como la variable maestro guarda el nombre completo del maestro que debe certificar, es necesario separar este nombre en los nombres y apellidos para buscarlo en la base de datos para obtener el id adecuado
         $arregloNombre = explode(" ", $maestro);
         $length = count($arregloNombre);
+        //El ultimo elemento siempre es el apellido paterno
         $maternoP=$arregloNombre[$length-1];
+        //El penultimo elemento siempre es el apellido materno
         $paternoP=$arregloNombre[$length-2];
+        //el resto de los elementos forman el nombre
         $nombreP="";
         for ($i=0; $i<$length-2; $i++){
           $nombreP=$nombreP.$arregloNombre[$i]." ";
         }
+        //esta linea borra el ultimo espacio que queda
         $nombreP = substr($nombreP, 0, -1);
         /*console_log($nombreP);
         console_log($maternoP);
         console_log($maternoP);*/
+        //buscamos el id del maestro que vamos a insertar en la tabla de certificados
         $arrFinalNombre = array($nombreP, $paternoP, $maternoP);
         if($queryMaestros=pg_query_params($con, 'SELECT id FROM AdminsMaestros WHERE nombres=$1 and apellido_paterno=$2 and apellido_materno=$3', $arrFinalNombre)){
           $idMaestro= pg_fetch_result($queryMaestros,0,0);
@@ -151,7 +155,9 @@ function test_input($data) {
           $paramsEvento = array($evento, $fecha);
           /*console_log($paramsEvento[0]);
           console_log($paramsEvento[1]);*/
+          //insertar el evento en la base de datos
           if(pg_query_params($con, 'INSERT into eventos values (default, $1, $2)', $paramsEvento)){
+            //insertamos el nuevo usuario en la base
             $paramsUsuario = array($nombre, $apellidoPaterno, $apellidoMaterno);
             /*console_log($paramsUsuario[0]);
             console_log($paramsUsuario[1]);
@@ -192,29 +198,6 @@ function test_input($data) {
           //console_log('error al buscar el id del maestro');
           echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al hacer solicitud certificado, intenta de nuevo</strong></div>';
         }
-
-        /*$query1 = "Select id from AdminsMaestros where id=$idMaestro";
-        $result1 = pg_query($con, $query1);
-        $rows = pg_num_rows($result1);
-        if($rows>0){
-          echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Ya existe un maestro/administrador con ese ID</strong></div>';
-        }else{
-          $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
-          $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
-          $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-          echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
-        }
-      /*include 'conexion.php';
-      $con=OpenCon();
-      $query = 'SELECT * FROM AdminsMaestros';
-      $results = pg_query($con, $query) or die('Query failed: ' . pg_last_error());
-
-      while($line = pg_fetch_array($results, null, PGSQL_ASSOC)){
-        echo "\t<tr>\n";
-        foreach ($line as $col_value) {
-          echo "\t\t<td>$col_value</td>\n";
-        }
-        echo "\t</tr>\n";*/
 
       }
     ?>
