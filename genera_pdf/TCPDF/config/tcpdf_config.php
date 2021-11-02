@@ -109,12 +109,12 @@ define ('PDF_AUTHOR', 'TCPDF');
 /**
  * Header title.
  */
-define ('PDF_HEADER_TITLE', 'Certificado');
+define ('PDF_HEADER_TITLE', '');
 
 /**
  * Header description string.
  */
-define ('PDF_HEADER_STRING', "Emitido por la Facultad de Ingeniería de la Universidad Anáhuac");
+define ('PDF_HEADER_STRING', " ");
 
 /**
  * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].
@@ -134,7 +134,7 @@ define ('PDF_MARGIN_FOOTER', 10);
 /**
  * Top margin.
  */
-define ('PDF_MARGIN_TOP', 27);
+define ('PDF_MARGIN_TOP', 20);
 
 /**
  * Bottom margin.
@@ -154,7 +154,7 @@ define ('PDF_MARGIN_RIGHT', 15);
 /**
  * Default main font name.
  */
-define ('PDF_FONT_NAME_MAIN', 'helvetica');
+define ('PDF_FONT_NAME_MAIN', 'pdfacourieri');
 
 /**
  * Default main font size.
