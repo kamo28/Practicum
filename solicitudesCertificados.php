@@ -153,9 +153,14 @@
                             </td>";
                     //si esta aprobado, entonces el admin puede crear el documento pdf
                     }else{
-                      echo '<td><a href=#>Ver Certificado</td>';
                       echo "<td>
-                              <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                              <form name='myForm' role='form' action='genera_pdf/pdf.php' method='post'>
+                                <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
+                              <button type='submit'>Ver Certificado</button>
+                              </form>
+                            </td>";
+                      echo "<td>
+                              <form name='myForm' role='form' action='includes/borrarCertificado.php' method='post'>
                                 <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Eliminar</button>
                               </form>

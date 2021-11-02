@@ -17,12 +17,6 @@
   }
   //checar que el usuario tiene permiso de ver esta pagina
   //session_start();
-  if(!isset($_SESSION['id_maestro'])){
-     header("Location:Login.php");
-  }
-  if($_SESSION['rol']=='Maestro'){
-     header("Location:error.php");
-  }
 
   // definir ve inicializar variables, las variables de error tendran el error a mostrar en pantalla si este existe
   $idCertificado = $nombre = $apellidoPaterno = $apellidoMaterno = $evento = $fecha = $maestro = "";
@@ -48,6 +42,7 @@
     //row[2]->id_usuario_certificado
     //row[3]->id_evento
     //row[4]->estado
+    //row[5]->id_persona_que_solicita
     //Tenemos que acceder a las tablas de usuariosCertificados, adminsMaestros, y eventos para obtener la informacion completa del certificado
     //Esto lo hacemos a traves de las llaves foraneas que tiene la tabla de certificados
     $arrID = array($row[2]);

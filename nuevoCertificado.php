@@ -168,10 +168,12 @@ function test_input($data) {
                 //console_log($idEvento);
                 if($query2=pg_query($con, 'SELECT id_usuario FROM usuarioscertificados ORDER BY id_usuario DESC LIMIT 1')){
                   $idUsuario= pg_fetch_result($query2,0,0);
+                  date_default_timezone_set('America/Mexico_City');
+                  $fecha = date('Y-m-d');
                   //console_log($idUsuario);
                   $estadoInicial="en revisión";
-                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento, $estadoInicial, $idUser);
-                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3, $4, $5)', $paramsCertificado)){
+                  $paramsCertificado = array($idMaestro, $idUsuario, $idEvento, $estadoInicial, $idUser, $fecha);
+                   if(pg_query_params($con, 'INSERT into certificados values (default, $1, $2, $3, $4, $5, $6)', $paramsCertificado)){
                     //console_log("Solicitud correcta");
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Se ha creado la solicitud de certificado, espera a que sea autorizado</strong></div>';
                   }else{
