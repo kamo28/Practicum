@@ -63,7 +63,7 @@
     ?>
 
     <div class="container" style="height:50px"></div>
-    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
+    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; ">
       <h2 style="text-align:center">Eliminar maestro</h2>
       <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 

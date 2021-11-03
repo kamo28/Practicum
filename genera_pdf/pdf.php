@@ -128,6 +128,7 @@ if(!isset($_POST['id_certificado'])){
             //$html_f='<span style="font-family:'.$fontname.'.;font-weight:bold">my text in bold</span>: my normal text';
             //$pdf->writeHTMLCell($w=0,$h=0,$x=11,$y=201,$html_f,$border=0,$ln=0,$fill=false,$reseth=true,$align='L',$autopadding=false);
 
+            //dejavusanscondensedb
             $html3 = <<<EOD
             <div>
                 <div style="text-align:center">
@@ -135,25 +136,25 @@ if(!isset($_POST['id_certificado'])){
                     <h4 style="line-height: 50%; font-size:14; font-family:'.$fontname1_regular.'; font-weight:regular">Otorga el presente</h4>
                     <h1 style="line-height: 120%; font-size:42px; font-family:'.$fontname1_bold.'; font-weight:bold">RECONOCIMIENTO</h1>
                     <h4 style="line-height: 20%; font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">al</h4>
-                    <h3 style="line-height: 120%; font-size:32px; font-family: mrdafoe">$nombreCertificado</h3>
+                    <h3 style="line-height: 120%; font-size:32px; font-family: pdfatimesi">$nombreCertificado</h3>
                     <h4 style="font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">por su participación en el evento,</h4>
                     <h3 style="font-size:20px; font-family: dejavusansb">"$evento"</h3>
                     <br>
-                    <h4 style="font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">Huixquilucan, Estado de México a $fechaEvento.</h4>
+                    <h4 style="font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">Huixquilucan, Estado de México, $fechaEvento.</h4>
                 </div>
 
                 <table border="0" cellspacing="3" cellpadding="4">
                     <tr>
                         <th align="center">
                             <h4 style="font-size:14; font-family:'.$fontname1_regular.'; font-weight:regular">$nombreSolicitador</h4>
-                            <p style="font-size:12; font-family:'.$fontname1_regular.'; font-weight:regular">$puestoSolicitador,  $areaSolcitador</p>
+                            <p style="font-size:10; font-family:'.$fontname1_regular.'; font-weight:regular">$puestoSolicitador<br> $areaSolcitador</p>
                         </th>
                         <th>
                         </th>
                         <th></th>
                         <th align="center">
                             <h4 style="font-size:14; font-family:'.$fontname1_regular.'; font-weight:regular">$nombreAutorizador</h4>
-                            <p style="font-size:12; font-family:'.$fontname1_regular.'; font-weight:regular">$puestoAutorizador, $areaAutorizador</p>
+                            <p style="font-size:10; font-family:'.$fontname1_regular.'; font-weight:regular">$puestoAutorizador<br> $areaAutorizador</p>
                         </th>
                     </tr>
                 </table>
