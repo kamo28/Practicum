@@ -1,6 +1,6 @@
 <?php
     //header con barra de navegacion
-    require "header.php"
+    require "../header.php"
 ?>
 <head>
   <title>Nueva Solicitud de Certficado </title>
@@ -28,7 +28,7 @@
     $idCertificado=$_POST['id_cert'];
   }
   //empezar conexion a base de datos
-  include 'conexion.php';
+  include '../conexion.php';
   $con=OpenCon();
   //seleccionamos el certificado con el id correspondiente, este se obtienen normalmente desde solicitudCertificado, a traves del form que contiene el boton de modificar
   $result = pg_query($con, "SELECT * FROM certificados WHERE id_certificado = $idCertificado");

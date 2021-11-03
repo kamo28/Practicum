@@ -167,8 +167,9 @@
                 $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
                 $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
                 if($result = pg_query($query)){
-                  echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario Creado Correctamente</strong></div>';
                   echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
+                  echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario Creado Correctamente</strong></div>';
+                  //Añadir función en PHP que limpie todos los campos
                 }else{
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al crear nuevo usuario</strong></div>';
                 }

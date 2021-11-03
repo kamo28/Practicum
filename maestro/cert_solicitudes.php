@@ -131,6 +131,7 @@
 
                 </tbody>
             </table>
+<!--             Poner if para casos que no haya solicitudes -->
             <input type="submit" name="submit" class="btn btn-dark" value="Revisar solicitud de certificado" style="text-align:center">
         </form>
     </div>

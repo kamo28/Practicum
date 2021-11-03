@@ -149,7 +149,7 @@
         <!--Área-->
         <div class="mb-3">
           <label for="areaMaestro" class="form-label">Área (Matemáticas, Sistemas, Física)</label>
-          <input type="text" class="form-control" id="areaMaestro" name="areaMaestro" value="<?php echo $puestoMaestro;?>">
+          <input type="text" class="form-control" id="areaMaestro" name="areaMaestro" value="<?php echo $areaMaestro;?>">
           <span class="error">* <?php echo $areaErr;?></span>
         </div>
 
@@ -219,8 +219,6 @@
               }
             }
           }*/
-        }else{
-          echo "<p>bro</p>";
         }
     ?>
   </body>

@@ -119,7 +119,7 @@ if(!isset($_POST['id_certificado'])){
             $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
 
             // Image example with resizing
-            $pdf->Image('../login_resources/uan.jpg', 128, 5, 40, 30, 'JPG', '', '', true, 150, '', false, false, 0, false, false, false);
+            $pdf->Image('../resources/uan.jpg', 128, 5, 40, 30, 'JPG', '', '', true, 150, '', false, false, 0, false, false, false);
 
             $fontname1_regular = TCPDF_FONTS::addTTFfont('TCPDF/fonts/Extras/Merriweather/Merriweather-Regular.ttf', '', '', 32);
             $fontname1_bold = TCPDF_FONTS::addTTFfont('TCPDF/fonts/Extras/Merriweather/Merriweather-Bold.ttf', '', '', 32);
@@ -133,9 +133,9 @@ if(!isset($_POST['id_certificado'])){
                 <div style="text-align:center">
                     <h2 style="font-size:32px; font-family:'.$fontname1_regular.'; font-weight:regular">Facultad de Ingeniería</h2>
                     <h4 style="line-height: 50%; font-size:14; font-family:'.$fontname1_regular.'; font-weight:regular">Otorga el presente</h4>
-                    <h1 style="font-size:42px; font-family:'.$fontname1_bold.'; font-weight:bold">RECONOCIMIENTO</h1>
-                    <h4 style="line-height: 0%; font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">al</h4>
-                    <h3 style="line-height: 60%; font-size:32px; font-family: mrdafoe">$nombreCertificado</h3>
+                    <h1 style="line-height: 120%; font-size:42px; font-family:'.$fontname1_bold.'; font-weight:bold">RECONOCIMIENTO</h1>
+                    <h4 style="line-height: 20%; font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">al</h4>
+                    <h3 style="line-height: 120%; font-size:32px; font-family: mrdafoe">$nombreCertificado</h3>
                     <h4 style="font-size:14px; font-family:'.$fontname1_regular.'; font-weight:regular">por su participación en el evento,</h4>
                     <h3 style="font-size:20px; font-family: dejavusansb">"$evento"</h3>
                     <br>

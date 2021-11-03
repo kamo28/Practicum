@@ -30,9 +30,9 @@
                     Maestros
                   </a>
                   <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <a class="dropdown-item" href="/PracticumCodigo/maestros/alta_maestros.php">Nuevo Maestro</a>
-                    <a class="dropdown-item" href="/PracticumCodigo/maestros/mod_maestros.php">Modificar Maestro</a>
-                    <a class="dropdown-item" href="/PracticumCodigo/maestros/baja_maestros.php">Borrar Maestro</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/admin/alta_maestros.php">Nuevo Maestro</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/admin/mod_maestros.php">Modificar Maestro</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/admin/baja_maestros.php">Borrar Maestro</a>
                   </div>
                 </li>
 
@@ -42,8 +42,8 @@
                     Certificados
                   </a>
                   <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <a class="dropdown-item" href="/PracticumCodigo/nuevoCertificado.php">Nueva Solicitud de Certficado</a>
-                    <a class="dropdown-item" href="/PracticumCodigo/solicitudesCertificados.php">Ver Certificados</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/admin/nuevoCertificado.php">Nueva Solicitud de Certficado</a>
+                    <a class="dropdown-item" href="/PracticumCodigo/admin/solicitudesCertificados.php">Ver Certificados</a>
                   </div>
                 </li>';
               }
@@ -65,7 +65,7 @@
             ?>
 
             <li class="nav-item">
-              <form role="form" action="http://localhost/PracticumCodigo/login_resources/logout.inc.php" method="post"><!--PHP que va a terminar la sesión-->
+              <form role="form" action="http://localhost/PracticumCodigo/includes/logout.inc.php" method="post"><!--PHP que va a terminar la sesión-->
                 <center><button type="submit" class="btn btn-info" name="logout-submit">Salir</button></center>
               </form>
             </li>

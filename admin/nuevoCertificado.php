@@ -1,5 +1,5 @@
 <?php
-    require "header.php"
+    require "../header.php"
 ?>
 <head>
   <title>Nueva Solicitud de Certficado </title>
@@ -108,7 +108,7 @@ function test_input($data) {
           <datalist id="profesores">
             <?php
             //funcion para obtener la lista de admins y maestros registrados en el sitio
-              include 'conexion.php';
+              include '../conexion.php';
               $con=OpenCon();
               $query = 'SELECT nombres, apellido_paterno, apellido_materno FROM AdminsMaestros';
               $results = pg_query($con, $query) or die('Query failed: ' . pg_last_error());

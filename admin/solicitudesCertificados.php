@@ -1,5 +1,5 @@
 <?php
-    require "header.php";
+    require "../header.php";
     //checar si hay filtro puesto o no
     if (isset($_POST['certs'])){
       $estado=$_POST['certs'];
@@ -31,7 +31,7 @@
   <br>
   <br>
   <?php
-      require 'conexion.php';
+      require '../conexion.php';
       $con = OpenCon();
       //Filtro, ver si esta puesto
       $estado="";
@@ -135,7 +135,7 @@
                               </form>
                             </td>";
                       echo "<td>
-                              <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                              <form name='myForm' role='form' action='../includes/borrarCertificado.inc.php' method='post'>
                                 <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Eliminar</button>
                               </form>
@@ -146,7 +146,7 @@
                             </td>";
                       //arreglar este boton
                       echo "<td>
-                              <form name='myForm' role='form' action='includes/borrarCertificado.inc.php' method='post'>
+                              <form name='myForm' role='form' action='../includes/borrarCertificado.inc.php' method='post'>
                                 <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Eliminar</button>
                               </form>
@@ -154,13 +154,13 @@
                     //si esta aprobado, entonces el admin puede crear el documento pdf
                     }else{
                       echo "<td>
-                              <form name='myForm' role='form' action='genera_pdf/pdf.php' method='post'>
+                              <form name='myForm' role='form' action='../genera_pdf/pdf.php' method='post'>
                                 <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Ver Certificado</button>
                               </form>
                             </td>";
                       echo "<td>
-                              <form name='myForm' role='form' action='includes/borrarCertificado.php' method='post'>
+                              <form name='myForm' role='form' action='../includes/borrarCertificado.inc.php' method='post'>
                                 <input type='hidden' name='id_certificado' value='".$arregloIDCertificado[$contador]."'>
                               <button type='submit'>Eliminar</button>
                               </form>

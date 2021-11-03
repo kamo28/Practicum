@@ -37,7 +37,7 @@
               $_SESSION['id_maestro'] = $usuario;
               $_SESSION['contraseña'] = $contraseña;
               if($_SESSION['rol']=='Maestro'){
-                header("Location: /PracticumCodigo/solicitudes_maestros/cert_solicitudes.php?login=success");
+                header("Location: /PracticumCodigo/maestro/cert_solicitudes.php?login=success");
               }else{
                 header("Location: /PracticumCodigo/inicio.php?login=success");
               }
