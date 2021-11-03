@@ -6,6 +6,17 @@
     <style>
       .error {color: #FF0000;}
     </style>
+    <script>
+    function limpiarInputs() {
+       document.getElementById('idMaestro').value='';
+       document.getElementById('nombreMaestro').value='';
+       document.getElementById('apellidoPaterno').value='';
+       document.getElementById('apellidoMaterno').value='';
+       document.getElementById('puestoMaestro').value='';
+       document.getElementById('areaMaestro').value='';
+       document.getElementById('contraseñaMaestro').value='';
+    }
+    </script>
   </head>
   <?php
       //checar permisos
@@ -167,9 +178,9 @@
                 $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
                 $query="Insert into AdminsMaestros (id, contraseña, nombres, apellido_paterno, apellido_materno, rol, puesto, area) VALUES ($idMaestro,'$hashedPwd','$nombreMaestro','$apellidoPaterno','$apellidoMaterno','$rolMaestro','$puestoMaestro','$areaMaestro')";
                 if($result = pg_query($query)){
-                  echo "<script type='text/javascript'>window.top.location='alta_maestros.php';</script>"; exit;
                   echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario Creado Correctamente</strong></div>';
-                  //Añadir función en PHP que limpie todos los campos
+                  //Añadir función en JS que limpie todos los campos
+                  echo '<script>limpiarInputs();</script>';
                 }else{
                     echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al crear nuevo usuario</strong></div>';
                 }
@@ -177,42 +188,6 @@
             }else{
               echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al crear nuevo usuario</strong></div>';
             }
-
-            /*$sql = "INSERT INTO AdminsMaestros VALUES('$idMaestro', '$contraseña', '$nombreMaestro', '$apellidoPaterno', '$apellidoMaterno', '$rolMaestro', '$puestoMaestro', '$areaMaestro')";
-            $result=pg_query($con, $sql);
-            if (!$result) {
-              echo "An error occurred.\n";
-              exit;
-            }*/
-
-
-            /*$stmt = mysqli_stmt_init($con);
-            if(!mysqli_stmt_prepare($stmt, $sql)){
-              echo "Failed to connect to MySQL: " . mysqli_connect_error();
-              exit();
-            }else{
-              mysqli_stmt_bind_param($stmt, "s", $email);
-              mysqli_stmt_execute($stmt);
-              mysqli_stmt_store_result($stmt);
-              $resultCheck = mysqli_stmt_num_rows($stmt);
-              if($resultCheck>0){
-              echo "<p style=\"color:red; margin-left:125px;\">*Email ya utilizado, pruebe con otro</p>";
-                exit();
-              }else{
-                  $sql = "INSERT INTO Usuario (Nombre_del_usuario, Correo_electronico, Contraseña, Fecha_de_Nacimiento, Numero_de_tarjeta_bancaria, Direccion_Postal) VALUES (?,?,?,?,?,?)";
-                  $stmt = mysqli_stmt_init($con);
-                  if(!mysqli_stmt_prepare($stmt, $sql)){
-                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                    exit();
-                  }else{
-                    $hashedPwd = password_hash($contraseña, PASSWORD_DEFAULT);
-                    mysqli_stmt_bind_param($stmt, "ssssis", $NombreUsuario, $email, $hashedPwd, $fecha, $tarjeta, $direccion);
-                    mysqli_stmt_execute($stmt);
-                    echo "<script type='text/javascript'>window.top.location='http://localhost/PHPProjects/DAWproyecto-main/php/registroCorrecto.php';</script>"; exit;
-                    mysqli_close($con);
-              }
-            }
-          }*/
         }
     ?>
   </body>

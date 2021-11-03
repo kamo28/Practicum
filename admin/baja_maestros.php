@@ -6,6 +6,17 @@
     <style>
       .error {color: #FF0000;}
     </style>
+    <script>
+    function limpiarInputs() {
+       document.getElementById('idMaestro').value='';
+       document.getElementById('nombreMaestro').value='';
+       document.getElementById('apellidoPaterno').value='';
+       document.getElementById('apellidoMaterno').value='';
+       document.getElementById('puestoMaestro').value='';
+       document.getElementById('areaMaestro').value='';
+       document.getElementById('contraseñaMaestro').value='';
+    }
+    </script>
   </head>
   <?php
       // define variables and set to empty values
@@ -36,7 +47,7 @@
         // escape variables for security
         $idMaestro = $_POST['idMaestro'];
         $result = pg_query($con, "SELECT * FROM AdminsMaestros WHERE id = $idMaestro");
-      
+
         $arr = pg_fetch_assoc($result);
         if (!$arr) {
           echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>No existe un maestro/administrador con ese ID</strong></div>';
@@ -48,7 +59,7 @@
          }
 
         CloseCon($con);
-      }    
+      }
     ?>
 
     <div class="container" style="height:50px"></div>
@@ -91,8 +102,8 @@
       </form>
     </div>
 
-<?php 
-   //query para borrar   
+<?php
+   //query para borrar
     if(isset($_POST['submit'])
     && !empty($_POST["idMaestro"])){
 
@@ -103,10 +114,16 @@
         $result = pg_query($con, "SELECT * FROM AdminsMaestros WHERE id = $idMaestro");
 
         $query = "DELETE FROM AdminsMaestros WHERE id = $idMaestro ";
-        $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-        header('Location: baja_maestros.php');
-        echo "<script type='text/javascript'>window.top.location='baja_maestros.php';</script>"; exit;
-
+        if($result = pg_query($query)){
+          echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario borrado correctamente</strong></div>';
+          //Añadir función en JS que limpie todos los campos
+          echo '<script>limpiarInputs();</script>';
+        }else{
+          echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al borrar</strong></div>';
+        }
+        //header('Location: baja_maestros.php');
+        //echo "<script type='text/javascript'>window.top.location='baja_maestros.php';</script>"; exit;
+        CloseCon($con);
       }
     ?>
   </body>
