@@ -30,13 +30,13 @@
         }elseif($_SESSION['rol']=='Admin'){
             header("Location: /PracticumCodigo/inicio.php?login=success");
         }else{
-            
+
             if(!isset($_SESSION['id_maestro'])){
                 echo ' -->
                     <br><br>
                     <div class="container">
                         <div class="d-flex justify-content-center h-100">
-                            <img src="login_resources/facultad_inge.png" alt="Texto Alternativo" style="width:auto;height:150px;border:0">
+                            <img src="resources/facultad_inge.png" alt="Texto Alternativo" style="width:auto;height:150px;border:0">
                         </div>
                     </div>
                     <br><br><br>
@@ -70,7 +70,7 @@
                     </div><!-- ';
             }
         }
-        
+
     ?> -->
 </div>
 </body>

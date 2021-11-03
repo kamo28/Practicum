@@ -6,6 +6,16 @@
     <style>
         .error {color: #FF0000;}
     </style>
+    <script>
+    function limpiarInputs() {
+       document.getElementById('idMaestro').value='';
+       document.getElementById('nombreMaestro').value='';
+       document.getElementById('apellidoPaterno').value='';
+       document.getElementById('apellidoMaterno').value='';
+       document.getElementById('puestoMaestro').value='';
+       document.getElementById('areaMaestro').value='';
+    }
+    </script>
   </head>
   <?php
       // define variables and set to empty values
@@ -109,7 +119,7 @@
         <!--ID-->
         <div class="mb-3">
           <label for="idMaestro" class="form-label">ID</label>
-          <input type="number" min="0" name="idMaestro" class="form-control" value="<?php echo $idMaestro;?>">
+          <input type="number" min="0" name="idMaestro" id="idMaestro "class="form-control" value="<?php echo $idMaestro;?>">
           <span class="error">* <?php echo $idErr;?></span>
         </div>
         <input type="submit" name="buscar" class="btn btn-primary" value="Buscar"><br><br><br>
@@ -174,7 +184,6 @@
       //Si los campos están llenos se mandan los datos a la base datos
         if(isset($_POST['cambiar']) && !empty($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["rolMaestro"])
       ){
-            echo "<p>hola</p>";
             //////////////////////////////////////////////////////////////////////////////////
             // Crear una conexión
             include '../conexion.php';
@@ -188,9 +197,13 @@
                         puesto = '$puestoMaestro',
                         area = '$areaMaestro'
                     WHERE id = $idMaestro;";
-            $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-            header('Location: mod_maestros.php');
-            echo "<script type='text/javascript'>window.top.location='mod_maestros.php';</script>"; exit;
+            if($result = pg_query($query)){
+              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Usuario modificado correctamente</strong></div>';
+              //Añadir función en JS que limpie todos los campos
+              echo '<script>limpiarInputs();</script>';
+            }else{
+              echo '<div class="alert alert-warning alert-dismissable" ><button type="button" class="close" data-dismiss="alert"> &times;</button><strong>Error al modificar</strong></div>';
+            }
 
             /*$stmt = mysqli_stmt_init($con);
             if(!mysqli_stmt_prepare($stmt, $sql)){
