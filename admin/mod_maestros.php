@@ -100,7 +100,7 @@
     ?>
 
     <div class="container" style="height:50px"></div>
-    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
+    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em;">
       <h2 style="text-align:center"> Modificar Maestro</h2>
 
       <?//Comienza formulario?>

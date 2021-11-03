@@ -77,7 +77,7 @@
       }
   ?>
     <div class="container" style="height:50px"></div>
-    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; background">
+    <div class="center-form", style="margin-left:auto; margin-right:auto; width:24em; ">
       <h2 style="text-align:center"> Crear Nuevo Maestro</h2>
       <h3 style="text-align:center">Llena los siguientes datos del maestro que se va a crear</h3>
 
