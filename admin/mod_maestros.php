@@ -153,7 +153,9 @@
           <span class="error">* <?php echo $areaErr;?></span>
         </div>
 
-        <!--Rol-->
+    <?php
+      if ($_SESSION['id_maestro'] != $idMaestro) 
+        echo '
         <h5>Rol en el sitio</h5>
         <span class="error">* <?php echo $rolErr;?></span>
         <div class="mb-3 form-check">
@@ -163,7 +165,10 @@
         <div class="mb-3 form-check">
           <input type="radio" class="form-check-input" name="rolMaestro" value="Admin">
           <label class="form-check-label" for="rolMaestro">Administrador (Pueden crear solicitudes de certificado y crear nuevos usuarios)</label>
-        </div>
+        </div>'
+      
+    ?>
+        
 
         <!--Enviar información-->
         <button type="submit" name="cambiar" class="btn btn-primary">Guardar cambios</button>
@@ -171,6 +176,7 @@
     </div>
 
     <?php
+      if ($_SESSION['id_maestro'] != $idMaestro) { 
       //Si los campos están llenos se mandan los datos a la base datos
         if(isset($_POST['cambiar']) && !empty($_POST["nombreMaestro"]) && !empty($_POST["apellidoPaterno"]) && !empty($_POST["apellidoMaterno"]) && !empty($_POST["puestoMaestro"]) && !empty($_POST["areaMaestro"]) && !empty($_POST["rolMaestro"])
       ){
@@ -220,6 +226,22 @@
             }
           }*/
         }
+      } else {
+
+            include '../conexion.php';
+            $con = OpenCon();
+
+            $query="UPDATE AdminsMaestros
+                    SET nombres = '$nombreMaestro',
+                        apellido_paterno = '$apellidoPaterno',
+                        apellido_materno = '$apellidoMaterno',
+                        puesto = '$puestoMaestro',
+                        area = '$areaMaestro'
+                    WHERE id = $idMaestro;";
+            $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+            header('Location: mod_maestros.php');
+            echo "<script type='text/javascript'>window.top.location='mod_maestros.php';</script>"; exit;
+      }
     ?>
   </body>
 
